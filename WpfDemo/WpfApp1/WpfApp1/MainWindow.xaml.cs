@@ -21,4 +21,12 @@ namespace WpfApp1
             InitializeComponent();
         }
     }
+    public class justTest
+    {
+        public string justForTest()
+        {
+
+            return "test ok.";
+        }
+    }
 }
