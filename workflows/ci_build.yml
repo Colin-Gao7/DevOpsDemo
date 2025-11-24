@@ -1,0 +1,42 @@
+# .github/workflows/ci_build_win.yml
+
+name: Windows .NET CI Build  # 工作流的名称
+
+on:
+  push:
+    branches: [ master ] 
+  pull_request:
+    branches: [ master ] 
+
+jobs:
+  build:
+    # 💥 关键修改：切换到 Windows 运行器 💥
+    runs-on: windows-latest 
+
+    steps:
+    
+    # 步骤 1: 检出代码 (Checkout)
+    - name: Checkout repository
+      uses: actions/checkout@v4 
+      
+    # 步骤 2: 设置 .NET 环境 (Setup .NET)
+    # Windows 运行器预装了多个 .NET SDK，但显式设置有助于版本控制
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0' # 替换为您的版本
+        
+    # 步骤 3: 恢复依赖项 (Restore)
+    - name: Restore dependencies
+      # 在 Windows 上，默认使用 PowerShell
+      run: dotnet restore
+      
+    # 步骤 4: 运行编译 (Build)
+    - name: Build project (Windows)
+      # 对于 WPF 项目，Windows 运行器是正确处理特定框架引用的关键
+      run: dotnet build --configuration Release --no-restore 
+      
+    # 步骤 5: (可选) 运行单元测试
+    # 单元测试通常不需要特定的平台，但使用 Windows 运行器也没有问题
+    - name: Run unit tests
+      run: dotnet test --no-build --verbosity normal
