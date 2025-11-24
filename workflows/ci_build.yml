@@ -39,4 +39,4 @@ jobs:
     # 步骤 5: (可选) 运行单元测试
     # 单元测试通常不需要特定的平台，但使用 Windows 运行器也没有问题
     - name: Run unit tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --verbosity normal
